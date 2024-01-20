@@ -52,7 +52,7 @@ def deb(d):
 
 # Function to read config from the configfile:
 def read_config(): 
-    global KAVITA_URL, KAVITA_API, series, debug, conf_series, PICKLEFILE
+    global KAVITA_URL, KAVITA_API, series, debug, conf_series, PICKLEFILE, TMPFILE, TELEGRAMCONFIG
     config = configparser.ConfigParser()
     deb("Reading config file")
     try:
@@ -202,8 +202,8 @@ def check_all_series():
                     deb("summary: " + summary)
                     print("New release of " + series[s]["serie"] + " is available: " + name + " (" + summary + ")" )
                     # fetch the image to a temp file
-                    deb("Fetching image from url: " + KAVITA_URL + imgURL)
-                    os.system('curl -s --output ' + TMPFILE + shlex.quote(KAVITA_URL + imgURL[1:]))
+                    deb("Fetching image from url: " + shlex.quote(KAVITA_URL + imgURL[1:]))
+                    os.system('curl -s --output ' + TMPFILE + " " + shlex.quote(KAVITA_URL + imgURL[1:]))
                     os.system('/usr/local/bin/telegram-send --config ' + TELEGRAMCONFIG + ' --image ' + TMPFILE + ' --caption "' + shlex.quote(name + ' (' + summary + ')') + '"')
                     os.remove(TMPFILE)
                     sleep(5)
