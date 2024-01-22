@@ -20,6 +20,16 @@ from time import sleep
 import shlex
 from pathlib import Path
 
+# Check how long the computer has been up
+# If it has been up for less than 5 minutes, sleep for 5 minutes
+def check_uptime():
+    with open('/proc/uptime', 'r') as f:
+        uptime_seconds = float(f.readline().split()[0])
+        if uptime_seconds < 300:
+            deb("Computer has been up for less than 5 minutes, exiting.")
+            exit(0)
+
+
 # Function to print out help:
 def printHelp():
     print("Usage: checkKavita.py")
@@ -211,6 +221,8 @@ def check_all_series():
             save_pickle()
         else:
             deb("No new issue of " + series[s]["serie"] + " available.")
+
+check_uptime()
 
 read_config()
 check_pickle()
