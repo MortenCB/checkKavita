@@ -20,6 +20,25 @@ from time import sleep
 import shlex
 from pathlib import Path
 
+# FUnction to check if the Kavita API is up:
+def check_kavita_api():
+    global KAVITA_URL, KAVITA_API
+    deb("Checking if Kavita API is up")
+    url = str(str(KAVITA_URL) + str('api/Opds/') + str(KAVITA_API) )
+    deb("URL: " + url)
+    try:
+        r = requests.post(url)
+        if r.status_code == 200:
+            deb("Got response 200 from Kavita")
+        else:
+            print("Error getting response 200 from Kavita")
+            print("Response code: ", r.status_code)
+            print("Response text: ", r.text)
+            exit(1)
+    except requests.exceptions.RequestException as e:
+        print("Error connecting to Kavita API:", str(e))
+        exit(1)
+
 # Check how long the computer has been up
 # If it has been up for less than 5 minutes, sleep for 5 minutes
 def check_uptime():
@@ -227,6 +246,8 @@ check_uptime()
 read_config()
 check_pickle()
 check_for_new_series_from_config()
+
+check_kavita_api()
 
 # When testing:
 # series["21"]["siste"]="25740"
