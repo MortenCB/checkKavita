@@ -217,7 +217,7 @@ def check_all_series():
                     for id in ids:
                         deb("New issue ID: " + id)
             else:
-                print("Error getting latest issue ID from Kavita for serieID: ", serieID)
+                print("Error getting latest issue ID from Kavita for serieID: ", s)
                 exit(1)
             # We have new issues, so go through them and inform on Telegram:
             if len(ids) > 0:
@@ -251,4 +251,6 @@ check_kavita_api()
 
 # When testing:
 # series["21"]["siste"]="25740"
+# morgenbladet 6779 13702
+# series["6779"]["siste"]="13702"
 check_all_series()
